@@ -35,7 +35,7 @@ public class V3HangmanMain {
         V3HangmanMain hangman = new V3HangmanMain();
 
         System.out.println(hangman.phrase);
-        System.out.println("Hidden code: " + hangman.hiddenPhrase);
+        System.out.println("Hidden code is " + hangman.hiddenPhrase);
 
         Scanner scanner = new Scanner(System.in);
 

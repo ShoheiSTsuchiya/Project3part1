@@ -9,7 +9,7 @@ public class HangmanMain {
     public static void main(String[] args) {
 
         System.out.println(" ***Welcome to the Wheel of Fortune*** \r\n" +
-                "  Follow these rules: \r\n" +
+                "Follow these rules: \r\n" +
                 "1. Guess the letter regardless of case and press Enter.\r\n" +
                 "2. The game calculates a guess and returns a reference.\r\n" +
                 "3. Keep playing to win the game.\r\n");

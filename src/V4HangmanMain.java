@@ -34,6 +34,7 @@ public class V4HangmanMain {
         V4HangmanMain hangman = new V4HangmanMain();
         BotPlayer bot = new BotPlayer();
 
+
         System.out.println(hangman.phrase);
         System.out.println("Hidden code: " + hangman.hiddenPhrase);
 
