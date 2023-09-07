@@ -30,12 +30,12 @@ public class V7HangmanMain {
 
     public static void main(String[] args) {
 
-        System.out.println(" *** Welcome to the Wheel of Fortune V3 *** \r\n" +
+        System.out.println(" *** Welcome to the Wheel of Fortune V7 *** \r\n" +
                 "Follow the rules: \r\n" +
                 "1. Guess a letter you guess in the hidden phrase and press Enter.\r\n" +
                 "2. The game calculates your guess. And get to you know what next step.\r\n" +
                 "3. Keep playing to win(open every single hidden character) this game.\r\n" +
-                "4. In the end, you will get your score. If you answer correct consecutively, your score will increase.\r\n");
+                "4. You will also get your score in the end. If you answer correct consecutively, your score will increase.\r\n");
         V7HangmanMain hangman = new V7HangmanMain();
 
         System.out.println("Here is a random phrase.");

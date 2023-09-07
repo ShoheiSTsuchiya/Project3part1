@@ -48,14 +48,14 @@ public class V3HangmanMain {
 
             char guessChar = hangman.getGuess(scanner);
 
-            int matchCount = hangman.getGuess(scanner);
+            int matchCount = hangman.processGuess(guessChar);
             if (matchCount == 0) {
                 nChance--;
                 hangman.previousGuesses.append(guessChar).append(" ");
-                System.out.println("INCORRECT Guess! " + nChance + " chances left!");
+                System.out.println("INCORRECT Guess. " + nChance + " chances left!");
             }
             else {
-                System.out.println("CORRECT guess!");
+                System.out.println("CORRECT guess.");
             }
 
             if (hangman.previousGuesses.length() > 0) {
