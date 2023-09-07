@@ -2,16 +2,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Random;
 
-public class V3HangmanMain {
+public class V6HangmanMain {
 
     private String phrase;
     private StringBuilder hiddenPhrase;
     private StringBuilder previousGuesses;
 
-    public V3HangmanMain() {
+    public V6HangmanMain() {
         List<String> phraseList = null;
         try {
             phraseList = Files.readAllLines(Paths.get("phrases.txt"));
@@ -26,50 +25,49 @@ public class V3HangmanMain {
 
     public static void main(String[] args) {
 
-        System.out.println(" *** Welcome to the Wheel of Fortune V3 *** \r\n" +
+        System.out.println(" *** Welcome to the Wheel of Fortune V6 *** \r\n" +
                 "Follow the rules: \r\n" +
                 "1. Guess a letter you guess in the hidden phrase and press Enter.\r\n" +
                 "2. The game calculates your guess and returns a reference.\r\n" +
                 "3. Keep playing to win(open every single hidden character) this game.\r\n");
 
-        V3HangmanMain hangman = new V3HangmanMain();
+        V6HangmanMain hangman = new V6HangmanMain();
+        BotPlayer bot = new BotPlayer();
+
 
         System.out.println("Here is a random phrase.");
-        System.out.println("Hidden code is " + hangman.hiddenPhrase);
+        System.out.println("Hidden code: " + hangman.hiddenPhrase);
 
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Enter the number of chances you want to play with:");
-        int nChance = scanner.nextInt();
+        int nChance = 10;  // default number of chances
 
         while (nChance > 0) {
             System.out.println(nChance + " chances left :");
             System.out.println("Guessed code: " + hangman.hiddenPhrase);
 
-            char guessChar = hangman.getGuess(scanner);
+            char guessChar = bot.getGuess();
 
-            int matchCount = hangman.getGuess(scanner);
-            if (matchCount == 0) {
+            int mathceCount = hangman.processGuess(guessChar);
+            if (mathceCount == 0) {
                 nChance--;
                 hangman.previousGuesses.append(guessChar).append(" ");
-                System.out.println("INCORRECT Guess! " + nChance + " chances left!");
+                System.out.println("INCORRECT Guess by Bot. " + nChance + " chances left.");
             }
             else {
-                System.out.println("CORRECT guess!");
+                System.out.println("CORRECT guess by Bot.");
             }
 
             if (hangman.previousGuesses.length() > 0) {
-                System.out.println("Incorrect guesses: " + hangman.previousGuesses.toString());
+                System.out.println("Incorrect guesses by Bot: " + hangman.previousGuesses.toString());
             }
 
             if (!hangman.hiddenPhrase.toString().contains("*")) {
-                System.out.println("Congratulations! You guessed the hidden sentence: " + hangman.hiddenPhrase);
+                System.out.println("Congratulations. Bot guessed the hidden sentence: " + hangman.hiddenPhrase);
                 break;
             }
         }
 
         if (nChance == 0) {
-            System.out.println("Out of chances. The hidden sentence was: " + hangman.phrase);
+            System.out.println("Bot failed. The hidden phrase was: " + hangman.phrase);
         }
     }
 
@@ -84,29 +82,12 @@ public class V3HangmanMain {
         for (int i = 0; i < phrase.length(); i++) {
             if (phrase.charAt(i) != ' ') {
                 hiddenCode.append('*');
-            } else {
+            }
+            else {
                 hiddenCode.append(' ');
             }
         }
         return hiddenCode;
-    }
-
-    public char getGuess(Scanner scanner) {
-        System.out.println("Guess a character you think in hidden sentence :");
-        String ch = scanner.next().toLowerCase();
-        if (ch.length() == 1) {
-            char guess = ch.charAt(0);
-            if (Character.isLetter(guess)) {
-                return guess;
-            }
-            else {
-                System.out.println("Invalid input. Please enter a letter from a-z or A-Z.");
-            }
-        }
-        else {
-            System.out.println("Invalid input. Please enter a single character.");
-        }
-        return getGuess(scanner);
     }
 
     public int processGuess(char guessChar) {
@@ -120,4 +101,38 @@ public class V3HangmanMain {
         }
         return matchCount;
     }
+
+
+    static class BotPlayer {
+        private String vowels = "aeiou";
+        private String popularConsonants = "riotnsl";
+
+        //white down rest of alphabet in order
+        private String otherLetters = "bcdfghjklmpquvwxyz";
+        private String allLettersToGuess = vowels + popularConsonants + otherLetters;
+        private int currentIndex = 0;
+        private StringBuilder guessedLetters = new StringBuilder(); //Track Guessed Letters
+
+        public char getGuess() {
+            char guess;
+
+            // guess vowels first
+            if (currentIndex < vowels.length()) {
+                guess = vowels.charAt(currentIndex);
+            }
+            // popular consonants second
+            else if (currentIndex < vowels.length() + popularConsonants.length()) {
+                guess = popularConsonants.charAt(currentIndex - vowels.length());
+            }
+            // anything else last
+            else {
+                guess = otherLetters.charAt(currentIndex - vowels.length() - popularConsonants.length());
+            }
+
+            currentIndex++;
+            guessedLetters.append(guess);
+            return guess;
+        }
+    }
+
 }

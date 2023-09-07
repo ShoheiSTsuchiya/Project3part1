@@ -7,12 +7,12 @@ import java.util.Random;
 
 public class HangmanMain {
     public static void main(String[] args) {
-
-        System.out.println(" ***Welcome to the Wheel of Fortune*** \r\n" +
-                "Follow these rules: \r\n" +
-                "1. Guess the letter regardless of case and press Enter.\r\n" +
-                "2. The game calculates a guess and returns a reference.\r\n" +
-                "3. Keep playing to win the game.\r\n");
+        //explain first the rule of this game
+        System.out.println(" *** Welcome to the Wheel of Fortune *** \r\n" +
+                "Follow the rules: \r\n" +
+                "1. Guess a letter you guess in the hidden phrase and press Enter.\r\n" +
+                "2. The game calculates your guess and returns a reference.\r\n" +
+                "3. Keep playing to win(open every single hidden character) this game.\r\n");
 
         List<String> phraseList = null;
         try {
@@ -36,6 +36,7 @@ public class HangmanMain {
                 hiddenCode.append(' ');
             }
         }
+        System.out.println("Here is a random phrase.");
         System.out.println("Hidden code: " + hiddenCode);
 
         Scanner scanner = new Scanner(System.in);

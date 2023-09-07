@@ -19,23 +19,23 @@ public class V4HangmanMain {
         }
 
         this.phrase = randomPhrase(phraseList);
-        this.hiddenPhrase = generateHiddenPhrase(this.phrase);
+        this.hiddenPhrase = createHiddenPhrase(this.phrase);
         this.previousGuesses = new StringBuilder();
     }
 
     public static void main(String[] args) {
 
-        System.out.println(" ***Welcome to the Wheel of Fortune*** \r\n" +
-                "Follow these rules: \r\n" +
-                "1. Guess the letter regardless of case and press Enter.\r\n" +
-                "2. The game calculates a guess and returns a reference.\r\n" +
-                "3. Keep playing to win the game.\r\n");
+        System.out.println(" *** Welcome to the Wheel of Fortune V4 *** \r\n" +
+                "Follow the rules: \r\n" +
+                "1. Guess a letter you guess in the hidden phrase and press Enter.\r\n" +
+                "2. The game calculates your guess and returns a reference.\r\n" +
+                "3. Keep playing to win(open every single hidden character) this game.\r\n");
 
         V4HangmanMain hangman = new V4HangmanMain();
         BotPlayer bot = new BotPlayer();
 
 
-        System.out.println(hangman.phrase);
+        System.out.println("Here is a random phrase.");
         System.out.println("Hidden code: " + hangman.hiddenPhrase);
 
         int nChance = 10;  // default number of chances
@@ -46,14 +46,14 @@ public class V4HangmanMain {
 
             char guessChar = bot.getGuess();
 
-            boolean isCorrect = hangman.processGuess(guessChar);
-            if (!isCorrect) {
+           int mathceCount = hangman.processGuess(guessChar);
+            if (mathceCount == 0) {
                 nChance--;
                 hangman.previousGuesses.append(guessChar).append(" ");
-                System.out.println("INCORRECT Guess by Bot! " + nChance + " chances left!");
+                System.out.println("INCORRECT Guess by Bot. " + nChance + " chances left.");
             }
             else {
-                System.out.println("CORRECT guess by Bot!");
+                System.out.println("CORRECT guess by Bot.");
             }
 
             if (hangman.previousGuesses.length() > 0) {
@@ -61,44 +61,45 @@ public class V4HangmanMain {
             }
 
             if (!hangman.hiddenPhrase.toString().contains("*")) {
-                System.out.println("Congratulations to Bot! It guessed the hidden sentence: " + hangman.hiddenPhrase);
+                System.out.println("Congratulations. Bot guessed the hidden sentence: " + hangman.hiddenPhrase);
                 break;
             }
         }
 
         if (nChance == 0) {
-            System.out.println("Bot failed! The hidden sentence was: " + hangman.phrase);
+            System.out.println("Bot failed. The hidden phrase was: " + hangman.phrase);
         }
     }
 
-    private String randomPhrase(List<String> phraseList) {
+    public String randomPhrase(List<String> phraseList) {
         Random rand = new Random();
         int r = rand.nextInt(phraseList.size());
         return phraseList.get(r);
     }
 
-    private StringBuilder generateHiddenPhrase(String phrase) {
+    public StringBuilder createHiddenPhrase(String phrase) {
         StringBuilder hiddenCode = new StringBuilder();
         for (int i = 0; i < phrase.length(); i++) {
             if (phrase.charAt(i) != ' ') {
                 hiddenCode.append('*');
-            } else {
+            }
+            else {
                 hiddenCode.append(' ');
             }
         }
         return hiddenCode;
     }
 
-    private boolean processGuess(char guessChar) {
-        boolean found = false;
+    public int processGuess(char guessChar) {
+        int matchCount = 0;
         for (int i = 0; i < phrase.length(); i++) {
             char strChar = phrase.charAt(i);
             if (Character.toLowerCase(guessChar) == Character.toLowerCase(strChar)) {
-                found = true;
+                matchCount++;
                 hiddenPhrase.setCharAt(i, strChar);
             }
         }
-        return found;
+        return matchCount;
     }
 
     static class BotPlayer {
