@@ -46,8 +46,8 @@ public class V5HangmanMain {
 
             char guessChar = bot.getGuess();
 
-            int mathceCount = hangman.processGuess(guessChar);
-            if (mathceCount == 0) {
+            int matchCount = hangman.processGuess(guessChar);
+            if (matchCount == 0) {
                 nChance--;
                 hangman.previousGuesses.append(guessChar).append(" ");
                 System.out.println("INCORRECT Guess by Bot. " + nChance + " chances left.");
@@ -102,6 +102,7 @@ public class V5HangmanMain {
         return matchCount;
     }
 
+    //guess vowels first and then guess rest of alphabet in order
     static class BotPlayer {
         private String vowels = "aeiou";
         private int vowelIndex = 0;

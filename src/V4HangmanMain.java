@@ -28,7 +28,7 @@ public class V4HangmanMain {
         System.out.println(" *** Welcome to the Wheel of Fortune V4 *** \r\n" +
                 "Follow the rules: \r\n" +
                 "1. Guess a letter you guess in the hidden phrase and press Enter.\r\n" +
-                "2. The game calculates your guess and returns a reference.\r\n" +
+                "2. The game calculates your guess. And get to you know what next step.\r\n" +
                 "3. Keep playing to win(open every single hidden character) this game.\r\n");
 
         V4HangmanMain hangman = new V4HangmanMain();
@@ -46,8 +46,8 @@ public class V4HangmanMain {
 
             char guessChar = bot.getGuess();
 
-           int mathceCount = hangman.processGuess(guessChar);
-            if (mathceCount == 0) {
+           int matchCount = hangman.processGuess(guessChar);
+            if (matchCount == 0) {
                 nChance--;
                 hangman.previousGuesses.append(guessChar).append(" ");
                 System.out.println("INCORRECT Guess by Bot. " + nChance + " chances left.");
@@ -102,6 +102,8 @@ public class V4HangmanMain {
         return matchCount;
     }
 
+
+    //guess A to Z bot
     static class BotPlayer {
         private char currentGuess = 'a'; // start from 'a'
 

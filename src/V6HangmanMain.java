@@ -28,7 +28,7 @@ public class V6HangmanMain {
         System.out.println(" *** Welcome to the Wheel of Fortune V6 *** \r\n" +
                 "Follow the rules: \r\n" +
                 "1. Guess a letter you guess in the hidden phrase and press Enter.\r\n" +
-                "2. The game calculates your guess and returns a reference.\r\n" +
+                "2. The game calculates your guess. And get to you know what next step.\r\n" +
                 "3. Keep playing to win(open every single hidden character) this game.\r\n");
 
         V6HangmanMain hangman = new V6HangmanMain();
@@ -46,8 +46,8 @@ public class V6HangmanMain {
 
             char guessChar = bot.getGuess();
 
-            int mathceCount = hangman.processGuess(guessChar);
-            if (mathceCount == 0) {
+            int matchCount = hangman.processGuess(guessChar);
+            if (matchCount == 0) {
                 nChance--;
                 hangman.previousGuesses.append(guessChar).append(" ");
                 System.out.println("INCORRECT Guess by Bot. " + nChance + " chances left.");
@@ -102,14 +102,13 @@ public class V6HangmanMain {
         return matchCount;
     }
 
-
+// guess vowels first and some popular consonants second, and rest of characters last
     static class BotPlayer {
         private String vowels = "aeiou";
         private String popularConsonants = "riotnsl";
 
         //white down rest of alphabet in order
         private String otherLetters = "bcdfghjklmpquvwxyz";
-        private String allLettersToGuess = vowels + popularConsonants + otherLetters;
         private int currentIndex = 0;
         private StringBuilder guessedLetters = new StringBuilder(); //Track Guessed Letters
 
@@ -121,7 +120,7 @@ public class V6HangmanMain {
                 guess = vowels.charAt(currentIndex);
             }
             // popular consonants second
-            else if (currentIndex < vowels.length() + popularConsonants.length()) {
+            else if (currentIndex - vowels.length() < popularConsonants.length()) {
                 guess = popularConsonants.charAt(currentIndex - vowels.length());
             }
             // anything else last
@@ -134,5 +133,4 @@ public class V6HangmanMain {
             return guess;
         }
     }
-
 }

@@ -5,13 +5,15 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Random;
 
-public class V3HangmanMain {
-    //data members declare
+public class V7HangmanMain {
+
     private String phrase;
     private StringBuilder hiddenPhrase;
     private StringBuilder previousGuesses;
+    private int score; //score
+    private int consecutiveScore; // consecutive correct scores
 
-    public V3HangmanMain() {
+    public V7HangmanMain() {
         List<String> phraseList = null;
         try {
             phraseList = Files.readAllLines(Paths.get("phrases.txt"));
@@ -19,9 +21,11 @@ public class V3HangmanMain {
             System.out.println(e);
         }
 
-        this.phrase = randomPhrase(phraseList);             //instance variable for random phrase
-        this.hiddenPhrase = createHiddenPhrase(this.phrase);//for hidden phrase that selected
-        this.previousGuesses = new StringBuilder();         //to track previous guesses
+        this.phrase = randomPhrase(phraseList);
+        this.hiddenPhrase = createHiddenPhrase(this.phrase);
+        this.previousGuesses = new StringBuilder();
+        this.score = 0;                     //score initialization
+        this.consecutiveScore = 0;          // initialization of consecutive correct number
     }
 
     public static void main(String[] args) {
@@ -30,9 +34,9 @@ public class V3HangmanMain {
                 "Follow the rules: \r\n" +
                 "1. Guess a letter you guess in the hidden phrase and press Enter.\r\n" +
                 "2. The game calculates your guess. And get to you know what next step.\r\n" +
-                "3. Keep playing to win(open every single hidden character) this game.\r\n");
-        //make new instance names hangman
-        V3HangmanMain hangman = new V3HangmanMain();
+                "3. Keep playing to win(open every single hidden character) this game.\r\n" +
+                "4. In the end, you will get your score. If you answer correct consecutively, your score will increase.\r\n");
+        V7HangmanMain hangman = new V7HangmanMain();
 
         System.out.println("Here is a random phrase.");
         System.out.println("Hidden code is " + hangman.hiddenPhrase);
@@ -47,15 +51,19 @@ public class V3HangmanMain {
             System.out.println("Guessed code: " + hangman.hiddenPhrase);
 
             char guessChar = hangman.getGuess(scanner);
+            int matchCount = hangman.processGuess(guessChar);
 
-            int matchCount = hangman.getGuess(scanner);
+            //new method called and update score here
+            hangman.updateScore(matchCount);
+
             if (matchCount == 0) {
                 nChance--;
+                hangman.consecutiveScore = 0; // reset num of consecutive correct here
                 hangman.previousGuesses.append(guessChar).append(" ");
                 System.out.println("INCORRECT Guess! " + nChance + " chances left!");
             }
             else {
-                System.out.println("CORRECT guess!");
+                System.out.println("CORRECT guess. current score: " + hangman.score);
             }
 
             if (hangman.previousGuesses.length() > 0) {
@@ -68,19 +76,22 @@ public class V3HangmanMain {
             }
         }
 
+        // declare the final score here
+        System.out.println("Your final score is: " + hangman.score);
+
         if (nChance == 0) {
             System.out.println("Out of chances. The hidden sentence was: " + hangman.phrase);
+
         }
+
     }
 
-    //instance of random phrase form the given list
     public String randomPhrase(List<String> phraseList) {
         Random rand = new Random();
         int r = rand.nextInt(phraseList.size());
         return phraseList.get(r);
     }
 
-    //converts the given phrase to hidden version using asterisk
     public StringBuilder createHiddenPhrase(String phrase) {
         StringBuilder hiddenCode = new StringBuilder();
         for (int i = 0; i < phrase.length(); i++) {
@@ -93,7 +104,6 @@ public class V3HangmanMain {
         return hiddenCode;
     }
 
-    //get a character guess from player and return it
     public char getGuess(Scanner scanner) {
         System.out.println("Guess a character you think in hidden sentence :");
         String ch = scanner.next().toLowerCase();
@@ -112,7 +122,6 @@ public class V3HangmanMain {
         return getGuess(scanner);
     }
 
-    //check the character guessed against the phrase and update the hidden phrase
     public int processGuess(char guessChar) {
         int matchCount = 0;
         for (int i = 0; i < phrase.length(); i++) {
@@ -123,5 +132,20 @@ public class V3HangmanMain {
             }
         }
         return matchCount;
+    }
+
+    private void updateScore(int matchCount) {
+        if (matchCount == 0) {
+            consecutiveScore = 0; // reset num of consecutive correct
+            score--; // Decrease score for incorrect guess if desired
+        } else {
+            if (consecutiveScore > 1) {
+                score *= (int)Math.pow(2, consecutiveScore - 1);
+                consecutiveScore++;
+            } else {
+                score++;
+                consecutiveScore = 1;
+            }
+        }
     }
 }

@@ -11,7 +11,7 @@ public class HangmanMain {
         System.out.println(" *** Welcome to the Wheel of Fortune *** \r\n" +
                 "Follow the rules: \r\n" +
                 "1. Guess a letter you guess in the hidden phrase and press Enter.\r\n" +
-                "2. The game calculates your guess and returns a reference.\r\n" +
+                "2. The game calculates your guess. And get to you know what next step.\r\n" +
                 "3. Keep playing to win(open every single hidden character) this game.\r\n");
 
         List<String> phraseList = null;
