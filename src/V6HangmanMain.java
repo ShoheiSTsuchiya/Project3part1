@@ -38,7 +38,7 @@ public class V6HangmanMain {
         System.out.println("Here is a random phrase.");
         System.out.println("Hidden code: " + hangman.hiddenPhrase);
 
-        int nChance = 10;  // default number of chances
+        int nChance = 15;  // default number of chances
 
         while (nChance > 0) {
             System.out.println(nChance + " chances left :");

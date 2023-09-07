@@ -10,7 +10,7 @@ public class V7HangmanMain {
     private String phrase;
     private StringBuilder hiddenPhrase;
     private StringBuilder previousGuesses;
-    private int score; //score
+    private int score; //total score
     private int consecutiveScore; // consecutive correct scores
 
     public V7HangmanMain() {
@@ -58,7 +58,7 @@ public class V7HangmanMain {
 
             if (matchCount == 0) {
                 nChance--;
-                hangman.consecutiveScore = 0; // reset num of consecutive correct here
+
                 hangman.previousGuesses.append(guessChar).append(" ");
                 System.out.println("INCORRECT Guess! " + nChance + " chances left!");
             }
@@ -136,16 +136,10 @@ public class V7HangmanMain {
 
     private void updateScore(int matchCount) {
         if (matchCount == 0) {
-            consecutiveScore = 0; // reset num of consecutive correct
-            score--; // Decrease score for incorrect guess if desired
+            consecutiveScore = 0; // if incorrect guess, reset num of consecutive correct
         } else {
-            if (consecutiveScore > 1) {
-                score *= (int)Math.pow(2, consecutiveScore - 1);
-                consecutiveScore++;
-            } else {
-                score++;
-                consecutiveScore = 1;
+                consecutiveScore++;// if correct add consecutive score
+                score += Math.pow(2, consecutiveScore - 1); //add score based on the consecutive score
             }
-        }
     }
 }
