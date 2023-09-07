@@ -134,6 +134,7 @@ public class V7HangmanMain {
         return matchCount;
     }
 
+
     private void updateScore(int matchCount) {
         if (matchCount == 0) {
             consecutiveScore = 0; // if incorrect guess, reset num of consecutive correct
