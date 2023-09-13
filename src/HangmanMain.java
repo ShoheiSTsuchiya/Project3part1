@@ -30,10 +30,10 @@ public class HangmanMain {
         // Generate Hidden Phrase
         StringBuilder hiddenCode = new StringBuilder();
         for (int i = 0; i < phrase.length(); i++) {
-            if (phrase.charAt(i) != ' ') {
+            if (Character.isLetter(phrase.charAt(i)) || Character.isDigit(phrase.charAt(i))) {
                 hiddenCode.append('*');
             } else {
-                hiddenCode.append(' ');
+                hiddenCode.append(phrase.charAt(i));
             }
         }
         System.out.println("Here is a random phrase.");
