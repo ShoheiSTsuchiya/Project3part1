@@ -11,7 +11,6 @@ public class WheelOfFortuneAIGame extends WheelOfFortune {
         super(players.get(0)); // Pass the first player to the superclass constructor
         this.aiPlayers = new ArrayList<>(players);
     }
-
     @Override
     protected char getGuess(String previousGuesses) {
         // Get the index of the current player
