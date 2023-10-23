@@ -5,7 +5,7 @@ public class WheelOfFortuneAIGame extends WheelOfFortune {
 
     private List<WheelOfFortunePlayer> aiPlayers;
     private int currentPlayerIndex = 0;
-    private static final int MAX_WRONG_GUESSES = 5;  // Max wrong guesses allowed
+    private static  int MAX_WRONG_GUESSES = 10;  // Max wrong guesses allowed
 
     public WheelOfFortuneAIGame(List<WheelOfFortunePlayer> players) {
         super(players.get(0)); // Pass the first player to the superclass constructor

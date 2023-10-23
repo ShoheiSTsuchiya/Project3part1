@@ -60,17 +60,45 @@ class RandomAIPlayer implements WheelOfFortunePlayer {
     }
 }
 
+
 class MostCommonAIPlayer implements WheelOfFortunePlayer {
     private char[] commonLetters = {'e', 'a', 'r', 'i', 'o', 't', 'n', 's', 'l', 'c'};
     private int currentIdx = 0;
-
+    private  Set<Character> guessedChars = new HashSet<>();
+    private  Random random = new Random();
     @Override
     public char nextGuess() {
-        if (currentIdx >= commonLetters.length) {  // Added check for exceeding common letters array length
-            System.err.println("All common letters have been guessed");
-            return 0;
+        char guess;
+
+        if (currentIdx < commonLetters.length) {
+            guess = commonLetters[currentIdx++];
+            // If the character has already been guessed, skip to the next one
+            while (guessedChars.contains(guess) && currentIdx < commonLetters.length) {
+                guess = commonLetters[currentIdx++];
+            }
+
+            if (guessedChars.contains(guess)) {
+                // If all common letters have been guessed, proceed to random guessing
+                return getRandomGuess();
+            }
+
+            guessedChars.add(guess);
+            return guess;
         }
-        return commonLetters[currentIdx++];
+
+        // Getting a random character if all common letters have been guessed
+        return getRandomGuess();
+    }
+
+    // This method returns a random character that hasn't been guessed yet
+    private char getRandomGuess() {
+        char guess;
+        do {
+            guess = (char) (random.nextInt(26) + 'a');
+        } while (guessedChars.contains(guess));
+
+        guessedChars.add(guess);
+        return guess;
     }
 
     @Override
@@ -80,6 +108,9 @@ class MostCommonAIPlayer implements WheelOfFortunePlayer {
 
     @Override
     public void reset() {
-        currentIdx = 0;  // Reset the current index when the player is reset
+        currentIdx = 0;
+        guessedChars.clear();
     }
 }
+
+
