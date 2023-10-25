@@ -9,29 +9,37 @@ import java.util.Scanner;
 public class WheelOfFortuneUserGame extends WheelOfFortune {
 
     private Scanner scanner;
-    private static int MAX_WRONG_GUESSES = 5;
+    private static final int MAX_WRONG_GUESSES = 5;
+    private List<String> usedPhrases;
 
     public WheelOfFortuneUserGame(WheelOfFortunePlayer player) {
         super(player);
         this.scanner = new Scanner(System.in);
+        this.usedPhrases = new ArrayList<>();
         selectRandomPhrase();
     }
 
+    @Override
     protected void selectRandomPhrase() {
-        List<String> phraseList;
         try {
-            phraseList = Files.readAllLines(Paths.get("phrases.txt"));
+            List<String> phraseList = new ArrayList<>(phrases);
+            phraseList.removeAll(usedPhrases); // Remove already used phrases from the list
+            if (phraseList.isEmpty()) {
+                System.out.println("All phrases have been used. No more games can be played.");
+                return;
+            }
             String randomPhrase = getRandomPhrase(phraseList);
             setPhrase(randomPhrase);
-        } catch (IOException e) {
-            System.out.println("Error reading the phrases.txt file.");
+            usedPhrases.add(randomPhrase); // Add to the list of used phrases
+        } catch (Exception e) {
+            System.out.println("Error handling the phrases.");
             e.printStackTrace();
         }
     }
 
     private String getRandomPhrase(List<String> phrases) {
         if (phrases == null || phrases.isEmpty()) {
-            return "Phrase.txt is empty. ";
+            return "Phrase list is empty.";
         }
         Random random = new Random();
         int index = random.nextInt(phrases.size());
@@ -67,7 +75,7 @@ public class WheelOfFortuneUserGame extends WheelOfFortune {
 
     @Override
     public GameRecord play() {
-        player.reset();
+        player.reset();  // Reset player's state
         int score = 0;
         StringBuilder previousGuesses = new StringBuilder();
         int wrongGuesses = 0;
@@ -87,7 +95,7 @@ public class WheelOfFortuneUserGame extends WheelOfFortune {
         }
 
         if (wrongGuesses >= MAX_WRONG_GUESSES) {
-            System.out.println("Game over! You've run out of attempts.");
+            System.out.println("Game over! You've run out of attempts. The correct phrase was: " + phrase);
         } else {
             System.out.println("Congratulations! You've guessed the phrase: " + phrase);
         }
@@ -97,9 +105,14 @@ public class WheelOfFortuneUserGame extends WheelOfFortune {
 
     @Override
     protected boolean playNext() {
+        if (usedPhrases.size() == phrases.size()) { // End game if all phrases have been used
+            System.out.println("All phrases have been used. Game Over!");
+            return false;
+        }
         System.out.print("Do you want to play again? (yes/no): ");
         String response = scanner.next().toLowerCase();
-        if (response.equals("yes")) {
+        if ("yes".equals(response)) {
+            player.reset();  // Reset player's state
             selectRandomPhrase();
             return true;
         } else {

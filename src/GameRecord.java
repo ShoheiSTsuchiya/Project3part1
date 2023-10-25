@@ -12,6 +12,7 @@ public class GameRecord implements Comparable<GameRecord> {
     }
 
     public int getScore() {
+
         return score;
     }
 

@@ -10,6 +10,7 @@ public abstract class WheelOfFortune extends Game {
     protected List<String> phrases;
     protected WheelOfFortunePlayer player;
 
+
     public WheelOfFortune(WheelOfFortunePlayer player) {
         this.player = player;
         try {
@@ -20,7 +21,6 @@ public abstract class WheelOfFortune extends Game {
             // or provide some default phrases, or propagate the exception up the stack
             this.phrases = List.of("EXAMPLE PHRASE");
         }
-        selectRandomPhrase();
     }
 
     protected void selectRandomPhrase() {

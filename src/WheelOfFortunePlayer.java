@@ -39,7 +39,7 @@ class RandomAIPlayer implements WheelOfFortunePlayer {
     public char nextGuess() {
         char guess;
         if (guessedChars.size() == 26) {  // Added check for all letters guessed
-            System.err.println("All letters have been guessed");
+           System.err.println("All letters have been guessed");
             return 0;
         }
         do {
