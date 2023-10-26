@@ -16,34 +16,11 @@ public class WheelOfFortuneUserGame extends WheelOfFortune {
         super(player);
         this.scanner = new Scanner(System.in);
         this.usedPhrases = new ArrayList<>();
+        if (phrases.isEmpty()) {
+            System.out.println("Error: No phrases are available to play the game.");
+            System.exit(1);
+        }
         selectRandomPhrase();
-    }
-
-    @Override
-    protected void selectRandomPhrase() {
-        try {
-            List<String> phraseList = new ArrayList<>(phrases);
-            phraseList.removeAll(usedPhrases); // Remove already used phrases from the list
-            if (phraseList.isEmpty()) {
-                System.out.println("All phrases have been used. No more games can be played.");
-                return;
-            }
-            String randomPhrase = getRandomPhrase(phraseList);
-            setPhrase(randomPhrase);
-            usedPhrases.add(randomPhrase); // Add to the list of used phrases
-        } catch (Exception e) {
-            System.out.println("Error handling the phrases.");
-            e.printStackTrace();
-        }
-    }
-
-    private String getRandomPhrase(List<String> phrases) {
-        if (phrases == null || phrases.isEmpty()) {
-            return "Phrase list is empty.";
-        }
-        Random random = new Random();
-        int index = random.nextInt(phrases.size());
-        return phrases.get(index);
     }
 
     @Override

@@ -1,7 +1,3 @@
-//Change the world from here
-  //      Be the change you wish to see
-    //    Turn your wounds into wisdom
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +6,7 @@ public class WheelOfFortuneAIGame extends WheelOfFortune {
 
     private List<WheelOfFortunePlayer> aiPlayers;
     private int currentPlayerIndex = 0;
-    private static final int MAX_WRONG_GUESSES = 3;  // Max wrong guesses allowed
+    private static final int MAX_WRONG_GUESSES = 10;  // Max wrong guesses allowed
 
     public WheelOfFortuneAIGame() {
         super(new SequentialAIPlayer()); // Pass the default player to the superclass constructor
@@ -101,7 +97,7 @@ public class WheelOfFortuneAIGame extends WheelOfFortune {
         System.out.println("Average Score: " + allGamesRecord.average());
         System.out.println("Top 3 Scores: " + allGamesRecord.highGameList(3));
         for(WheelOfFortunePlayer player : players) {
-            System.out.println("Average Score for " + player.playerId() + ": " + allGamesRecord.average(player.playerId()));
+            System.out.println("Average Score for " + player.playerId() + ": " + String.format("%.3f", allGamesRecord.average(player.playerId())));
         }
     }
 }
