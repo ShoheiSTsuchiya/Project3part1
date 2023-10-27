@@ -62,13 +62,18 @@ public abstract class WheelOfFortune extends Game {
 
     private StringBuilder createHiddenPhrase(String phrase) {
         StringBuilder hidden = new StringBuilder();
-        for (char c : phrase.toCharArray()) {
-            if (c == ' ') {
-                hidden.append(' ');
+        char[] chars = phrase.toCharArray();
+
+        for (char c : chars) {
+            if (Character.isLetter(c)) {
+                hidden.append('*');
+            } else if (c == ' ' || c == '\'' || c == '’') {
+                hidden.append(c);
             } else {
                 hidden.append('*');
             }
         }
+
         return hidden;
     }
 
