@@ -18,8 +18,9 @@ public class AllGamesRecord {
     // Adds a GameRecord to the AllGamesRecord
     public void add(GameRecord record) {
         gameRecords.add(record);
-        // Compute if absent is used to initialize the list if the player ID is not already in the map
-        recordsPlayer.computeIfAbsent(record.getPlayerId(), k -> new ArrayList<>()).add(record);
+        String playerId = record.getPlayerId();
+        List<GameRecord> playerRecords = recordsPlayer.computeIfAbsent(playerId, k -> new ArrayList<>());
+        playerRecords.add(record);
     }
 
     // Returns the average score for all games added to the record
@@ -54,7 +55,12 @@ public class AllGamesRecord {
     public List<GameRecord> highGameList(int n) {
         List<GameRecord> sortedRecords = new ArrayList<>(gameRecords);
         Collections.sort(sortedRecords);  // Sorting in descending order, using GameRecord's compareTo
-        return sortedRecords.subList(0, Math.min(n, sortedRecords.size()));
+
+        List<GameRecord> topRecords = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            topRecords.add(sortedRecords.get(i));
+        }
+        return topRecords;
     }
 
     // Returns a sorted list of the top n scores for the specified player
@@ -65,8 +71,8 @@ public class AllGamesRecord {
         }
 
         List<GameRecord> sortedRecords = new ArrayList<>(playerRecords);
-        Collections.sort(sortedRecords);  // Sorting in descending order, using GameRecord's compareTo
-        return sortedRecords.subList(0, Math.min(n, sortedRecords.size()));
+        Collections.sort(sortedRecords, Collections.reverseOrder());  // Sorting in descending order, using GameRecord's compareTo
+        return new ArrayList<>(sortedRecords.subList(0, n));
     }
 
     @Override

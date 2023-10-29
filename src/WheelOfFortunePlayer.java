@@ -3,12 +3,14 @@ import java.util.Random;
 import java.util.Set;
 
 interface WheelOfFortunePlayer {
+
     char nextGuess();
     String playerId();
     void reset();
 }
 
 class SequentialAIPlayer implements WheelOfFortunePlayer {
+
     private char currentGuess = 'a';  // Fixed initialization of currentGuess
 
     @Override
