@@ -105,23 +105,26 @@ public class WheelOfFortuneUserGame extends WheelOfFortune {
         }
     }
     // Method to get the player's ID
+    // Method to get the player's ID
     private void getPlayerId() {
-        System.out.print("Enter your player ID: ");
-        String newPlayerId = scanner.next();
-        player = new WheelOfFortunePlayer() {
-            @Override
-            public char nextGuess() {
-                return 'a';
-            }
-            @Override
-            public String playerId() {
-                return newPlayerId;
-            }
-            @Override
-            public void reset() {}
-        };
-
+        if (player == null || player.playerId() == null) {
+            System.out.print("Enter your player ID: ");
+            String newPlayerId = scanner.next();
+            player = new WheelOfFortunePlayer() {
+                @Override
+                public char nextGuess() {
+                    return 'a';
+                }
+                @Override
+                public String playerId() {
+                    return newPlayerId;
+                }
+                @Override
+                public void reset() {}
+            };
+        }
     }
+
 
     public static void main(String[] args) {
 
